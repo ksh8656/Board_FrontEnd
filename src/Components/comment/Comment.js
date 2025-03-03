@@ -10,13 +10,22 @@ function Comment({ obj: comment, getCommentList, page }) {
   const { headers } = useContext(HttpHeadersContext);
   const { boardId } = useParams(); // ✅ URL에서 boardId 가져오기
 
-  const commentId = comment.id; // ✅ 백엔드 필드명 확인
+  const commentId = comment.id;
   const [show, setShow] = useState(false);
   const [content, setContent] = useState(comment.content);
 
   const changeContent = (event) => setContent(event.target.value);
 
-  /* ✅ 댓글 수정 */
+  // ✅ JWT 토큰을 포함한 axios 요청 헤더 생성
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("bbs_access_token"); // ✅ 토큰 가져오기
+    return {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+  };
+
+  /* ✅ 댓글 수정 (JWT 포함) */
   const updateComment = async () => {
     const req = { content };
 
@@ -24,35 +33,31 @@ function Comment({ obj: comment, getCommentList, page }) {
       const response = await axios.patch(
         `http://localhost:8989/board/${boardId}/comment/${commentId}`,
         req,
-        { headers }
+        { headers: getAuthHeaders() } // ✅ JWT 포함
       );
 
-      console.log("[Comment.js] updateComment() success :D", response.data);
       alert("댓글이 수정되었습니다!");
       getCommentList(page); // ✅ 댓글 목록 갱신
       setShow(false);
     } catch (error) {
-      console.error("[Comment.js] updateComment() error :<", error);
-      alert("댓글 수정에 실패했습니다.");
+      alert(error.response?.data?.message || "댓글 수정에 실패했습니다.");
     }
   };
 
-  /* ✅ 댓글 삭제 */
+  /* ✅ 댓글 삭제 (JWT 포함) */
   const deleteComment = async () => {
     if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
 
     try {
       await axios.delete(
         `http://localhost:8989/board/${boardId}/comment/${commentId}`,
-        { headers }
+        { headers: getAuthHeaders() } // ✅ JWT 포함
       );
 
-      console.log("[Comment.js] deleteComment() success :D");
       alert("댓글이 삭제되었습니다!");
       getCommentList(page); // ✅ 삭제 후 목록 갱신
     } catch (error) {
-      console.error("[Comment.js] deleteComment() error :<", error);
-      alert("댓글 삭제에 실패했습니다.");
+      alert(error.response?.data?.message || "댓글 삭제에 실패했습니다.");
     }
   };
 
@@ -125,3 +130,4 @@ function Comment({ obj: comment, getCommentList, page }) {
 }
 
 export default Comment;
+

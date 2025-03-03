@@ -14,15 +14,11 @@ const FileManager = (props) => {
   const fileDelete = async (boardId, fileId) => {
     try {
       const response = await axios.delete(`http://localhost:8989/board/${boardId}/file/delete?fileId=${fileId}`, {headers: headers});
-      console.log("[FielManager.js] fileDelete() success :D");
-      console.log(response.data);
 
       alert("파일 삭제 성공 :D");
       navigate(0);
 
     } catch (error) {
-      console.error("[FielManager.js] fileDelete() error :<");
-      console.error(error);
     }
   };
 

@@ -21,10 +21,6 @@ function BbsWrite() {
       return;
     }
 
-    console.log("✅ JWT Token:", auth.token);
-    console.log("✅ User Email:", localStorage.getItem("user_email"));
-    console.log("✅ 선택한 파일 목록:", file);
-
     // ✅ FormData 객체 생성
     const formData = new FormData();
 
@@ -42,15 +38,12 @@ function BbsWrite() {
     if (file.length > 0) {
       file.forEach((file, index) => {
         formData.append("files", file);
-        console.log(`📂 FormData에 추가된 파일 ${index + 1}:`, file.name);
       });
     } else {
-      console.log("🚨 업로드할 파일이 없습니다.");
     }
 
     // ✅ FormData 내용 확인
     for (let pair of formData.entries()) {
-      console.log(`📑 FormData 확인: ${pair[0]} =`, pair[1]);
     }
 
     try {
@@ -61,8 +54,6 @@ function BbsWrite() {
         },
       });
 
-      console.log("[BbsWrite.js] 게시글 등록 응답:", response.data);
-
       if (response.data.id) {
         // ✅ 생성된 게시글의 상세 페이지로 이동
         navigate(`/bbsdetail/${response.data.id}`);
@@ -70,7 +61,6 @@ function BbsWrite() {
         alert("게시글을 생성했지만 ID를 가져올 수 없습니다.");
       }
     } catch (error) {
-      console.error("❌ [BbsWrite.js] 게시글 작성 실패:", error);
       alert("게시글 등록에 실패했습니다.");
     }
   };

@@ -18,11 +18,10 @@ function BbsDetail() {
   const navigate = useNavigate();
   const getCommentListRef = useRef(null)
 
-  console.log("현재 boardId 값:", boardId);
+
 
   {/* ✅ 댓글 목록을 갱신하는 함수 추가 */ }
   const getCommentList = (page = 1) => {
-    console.log("댓글 목록 새로고침 실행, 페이지:", page);
   };
 
   // ✅ 게시글 상세 정보 가져오기
@@ -32,7 +31,6 @@ function BbsDetail() {
         headers: { Authorization: `Bearer ${localStorage.getItem("bbs_access_token")}` }
       });
 
-      console.log("[BbsDetail.js] getBbsDetail() success :D", response.data);
       setBbs(response.data);
 
       // ✅ 파일이 이미지면 Blob URL 생성
@@ -44,7 +42,7 @@ function BbsDetail() {
         });
       }
     } catch (error) {
-      console.error("[BbsDetail.js] getBbsDetail() error :<", error);
+
     }
   };
 
@@ -59,7 +57,7 @@ function BbsDetail() {
       const imageUrl = URL.createObjectURL(response.data);
       setImageUrls((prev) => ({ ...prev, [fileId]: imageUrl }));
     } catch (error) {
-      console.error("이미지 로드 실패:", error);
+
     }
   };
 
@@ -68,14 +66,14 @@ function BbsDetail() {
     try {
       const response = await axios.delete(`http://localhost:8989/board/${boardId}/delete`, { headers });
 
-      console.log("[BbsDetail.js] deleteBbs() success :D", response.data);
+
 
       if (response.status === 200) {
         alert("게시글을 성공적으로 삭제했습니다 :D");
         navigate("/bbslist");
       }
     } catch (error) {
-      console.error("[BbsDetail.js] deleteBbs() error :<", error);
+
     }
   };
 
@@ -104,9 +102,11 @@ function BbsDetail() {
           <Link className="btn btn-outline-secondary" to="/bbslist">
             <i className="fas fa-list"></i> 글목록
           </Link> &nbsp;
-          {localStorage.getItem("id") === bbs.writerName ? (
+
+          {/* ✅ 작성자 본인만 수정 & 삭제 버튼 표시 */}
+          {auth && bbs && auth.email === bbs.writer ? (
             <>
-              <Link className="btn btn-outline-secondary" to="/bbsupdate" state={{ bbs: updateBbs }}>
+              <Link className="btn btn-outline-secondary" to={`/bbsupdate/${bbs.id}`} state={{ bbs: updateBbs }}>
                 <i className="fas fa-edit"></i> 수정
               </Link> &nbsp;
               <button className="btn btn-outline-danger" onClick={deleteBbs}>

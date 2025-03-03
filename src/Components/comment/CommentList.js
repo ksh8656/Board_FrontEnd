@@ -3,7 +3,7 @@ import axios from "axios";
 import Pagination from "react-js-pagination";
 import Comment from "./Comment";
 import { AuthContext } from "../context/AuthProvider"; // ✅ auth 가져오기
-import "../../css/commentList.css"; // 스타일 파일 import
+
 
 function CommentList({ boardId, getCommentListRef }) {
   const { auth } = useContext(AuthContext); // ✅ auth 사용 가능하도록 설정
@@ -23,11 +23,10 @@ function CommentList({ boardId, getCommentListRef }) {
         `http://localhost:8989/board/${boardId}/comment/list`,
         {
           headers: { Authorization: `Bearer ${auth.token}` },
-          params: { page: page - 1 },
+          params: { page: page - 1, size: 5 }, // ✅ size=5 추가
         }
       );
 
-      console.log("✅ 최신 댓글 목록:", response.data);
       
       setTotalCnt(response.data.totalElements || 0);
 
@@ -38,11 +37,11 @@ function CommentList({ boardId, getCommentListRef }) {
       }, 100);
       
     } catch (error) {
-      console.error("[CommentList.js] getCommentList() error :<", error);
       setCommentList([]);
       setTotalCnt(0);
     }
   };
+
 
   useEffect(() => {
     if (getCommentListRef) {

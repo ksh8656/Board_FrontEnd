@@ -6,8 +6,6 @@ import { getRankColor } from "../utils/utils";
 function Header() {
   const { auth } = useContext(AuthContext);
 
-  console.log("auth 상태:", auth);
-
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -48,7 +46,7 @@ function Header() {
                   <li className="nav-item">
                     <Link 
                       className="nav-link" 
-                      to="/checkpwd" 
+                      to="/exercise-stats" 
                       style={{ color: getRankColor(auth.rank) }} // ✅ rank 색상 적용
                     >
                       <i className="fas fa-user"></i> {auth.email} 님 반갑습니다

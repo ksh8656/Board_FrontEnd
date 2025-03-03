@@ -1,11 +1,11 @@
 .comment-write-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #f9f9f9;
+  
+  
 }
 
 /* 프로필 이미지 */
@@ -17,6 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 120px; /* 🔹 입력 칸과 간격 추가 */
 }
 
 /* 이메일 */
@@ -24,6 +25,7 @@
   font-size: 14px;
   font-weight: bold;
   color: #555;
+  margin-right: 120px; /* 🔹 입력 칸과 간격 추가 */
 }
 
 /* 댓글 추가 버튼을 오른쪽 정렬 */
@@ -31,6 +33,7 @@
   margin-left: auto;
   padding: 5px 10px;
   font-size: 14px;
+  margin-right: 120px; /* 🔹 입력 칸과 간격 추가 */
 }
 
 /* 댓글 입력 칸 */

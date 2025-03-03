@@ -16,7 +16,6 @@ function Login() {
         try {
             const resp = await axios.post("http://localhost:8989/user/login", req);
 
-            console.log("[Login.js] login() success :D", resp.data);
 
             alert(`${resp.data.email}님, 성공적으로 로그인 되었습니다 🔐`);
 
@@ -34,7 +33,6 @@ function Login() {
             // ✅ 로그인 후 게시판으로 이동
             navigate("/bbslist");
         } catch (err) {
-            console.error("[Login.js] login() error :<", err);
 
             // ✅ 에러 메시지 개선
             let errorMessage = "서버 오류가 발생했습니다.";

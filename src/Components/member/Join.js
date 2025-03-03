@@ -34,13 +34,11 @@ function Join() {
 		}
 	
 		try {
-			console.log("이메일 중복 확인 요청 시작:", email);
 	
 			const resp = await axios.get(`http://localhost:8989/user/checkEmail`, {
 				params: { email }  
 			});
 	
-			console.log("이메일 중복 확인 응답:", resp.data); // ✅ 여기서 확인
 	
 			// 🔹 응답이 boolean 값이면 변환
 			if (typeof resp.data === "boolean") {
@@ -49,7 +47,6 @@ function Join() {
 				setEmailCheckMessage("응답이 잘못되었습니다.");
 			}
 		} catch (err) {
-			console.error("이메일 중복 확인 오류:", err);
 			setEmailCheckMessage("중복 확인 중 오류 발생");
 		}
 	};
@@ -76,11 +73,9 @@ function Join() {
 
         try {
             const resp = await axios.post("http://localhost:8989/user/register", req);
-            console.log("[Join.js] join() success :D", resp.data);
             alert(`${resp.data.username}님 회원가입을 축하드립니다 🎊`);
             navigate("/login");
         } catch (err) {
-            console.log("[Join.js] join() error :<", err);
             alert(err.response?.data || "회원가입 중 오류가 발생했습니다.");
         }
     };

@@ -42,15 +42,14 @@ function BbsList() {
       setTotalPages(response.data.totalPages);
       setTotalCnt(response.data.totalElements);
     } catch (error) {
-      console.error("API 요청 실패:", error);
+      
     }
   };
 
   const handleLike = async (boardId) => {
-    console.log("✅ 클릭된 게시글 ID:", boardId); // ✅ ID가 undefined인지 확인
+    
   
     if (!boardId) {
-      console.error("❌ 오류: boardId가 undefined입니다!");
       return; // 🚨 boardId가 없으면 API 호출 방지
     }
   
@@ -62,7 +61,7 @@ function BbsList() {
         )
       );
     } catch (error) {
-      console.error("좋아요 증가 실패:", error);
+      
     }
   };
   
@@ -72,19 +71,20 @@ function BbsList() {
     try {
       const response = await axiosInstance.get("/board/search", {
         params: {
-          page: page - 1,
+          page: page - 1,  // ✅ 0부터 시작하는 페이지 인덱스
           title: choiceVal === "title" ? searchVal : "",
           content: choiceVal === "content" ? searchVal : "",
           writerName: choiceVal === "writer" ? searchVal : "",
         },
       });
-
+  
       setBbsList(response.data.content);
       setTotalCnt(response.data.totalElements);
     } catch (error) {
-      console.log("검색 실패:", error);
+      
     }
   };
+  
 
   const changeChoice = (event) => setChoiceVal(event.target.value);
   const changeSearch = (event) => setSearchVal(event.target.value);
@@ -164,7 +164,6 @@ function BbsList() {
 
 /* ✅ 글 목록 테이블 행 컴포넌트 */
 function TableRow({ obj, cnt, handleLike }) {
-  console.log("obj 데이터 확인:", obj); // boardId가 올바르게 있는지 확인
 
   return (
     <tr>
